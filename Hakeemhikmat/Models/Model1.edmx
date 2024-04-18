@@ -1,0 +1,1070 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HakeemhikmatAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Disease">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar(max)" />
+          <Property Name="decription" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Hakeem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hakeem_id" Type="int" />
+          <Property Name="Experiences" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Ingredient">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar(max)" />
+          <Property Name="Publicity" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Nuskha">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hakeem_id" Type="int" />
+          <Property Name="name" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="NuskhaDisease">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="disease_id" Type="int" />
+          <Property Name="nuskha_id" Type="int" />
+        </EntityType>
+        <EntityType Name="NuskhaIngredient">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nuskha_id" Type="int" />
+          <Property Name="ingredient_id" Type="int" />
+          <Property Name="quanity" Type="int" />
+          <Property Name="unit" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="NuskhaStep">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="steps" Type="varchar(max)" />
+          <Property Name="nuskha_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Order_Detail">
+          <Key>
+            <PropertyRef Name="order_detail_id" />
+          </Key>
+          <Property Name="order_detail_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product_id" Type="int" />
+          <Property Name="order_id" Type="int" />
+          <Property Name="unit_price" Type="int" />
+          <Property Name="rating" Type="int" />
+          <Property Name="comment" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date" Type="datetime" />
+          <Property Name="user_id" Type="int" />
+        </EntityType>
+        <EntityType Name="PatientDisease">
+          <Key>
+            <PropertyRef Name="pateintdisease" />
+          </Key>
+          <Property Name="pateintdisease" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="patient_id" Type="int" />
+          <Property Name="disease_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hakeem_id" Type="int" />
+          <Property Name="name" Type="varchar(max)" />
+          <Property Name="price" Type="int" />
+          <Property Name="usage" Type="varchar(max)" />
+          <Property Name="gender" Type="varchar" MaxLength="50" />
+          <Property Name="nuskha_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Product_Disease">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="disease_id" Type="int" />
+          <Property Name="product_id" Type="int" />
+        </EntityType>
+        <EntityType Name="ProductImage">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="product_id" Type="int" />
+          <Property Name="image_path" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Rate">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nuskha_id" Type="int" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="comment" Type="varchar(max)" />
+          <Property Name="rating" Type="float" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar(max)" />
+          <Property Name="email" Type="varchar(max)" />
+          <Property Name="password" Type="varchar(max)" />
+          <Property Name="image" Type="varchar(max)" />
+          <Property Name="rol" Type="varchar(max)" />
+        </EntityType>
+        <Association Name="FK__Hakeem__hakeem_i__4E88ABD4">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Hakeem" Type="Self.Hakeem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Hakeem">
+              <PropertyRef Name="hakeem_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Nuskha__hakeem_i__6383C8BA">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Nuskha" Type="Self.Nuskha" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Nuskha">
+              <PropertyRef Name="hakeem_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__NuskhaIng__ingre__6D0D32F4">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="0..1" />
+          <End Role="NuskhaIngredient" Type="Self.NuskhaIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NuskhaIngredient">
+              <PropertyRef Name="ingredient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__NuskhaIng__nuskh__6C190EBB">
+          <End Role="Nuskha" Type="Self.Nuskha" Multiplicity="0..1" />
+          <End Role="NuskhaIngredient" Type="Self.NuskhaIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nuskha">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NuskhaIngredient">
+              <PropertyRef Name="nuskha_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order_Det__order__29221CFB">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="0..1" />
+          <End Role="Order_Detail" Type="Self.Order_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="Order_Detail">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order_Det__produ__282DF8C2">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Order_Detail" Type="Self.Order_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Order_Detail">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orderss__user_id__2180FB33">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PatientDi__disea__0E6E26BF">
+          <End Role="Disease" Type="Self.Disease" Multiplicity="0..1" />
+          <End Role="PatientDisease" Type="Self.PatientDisease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Disease">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PatientDisease">
+              <PropertyRef Name="disease_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__hakeem___5165187F">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="hakeem_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product_D__disea__59FA5E80">
+          <End Role="Disease" Type="Self.Disease" Multiplicity="0..1" />
+          <End Role="Product_Disease" Type="Self.Product_Disease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Disease">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Product_Disease">
+              <PropertyRef Name="disease_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product_D__produ__5AEE82B9">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Product_Disease" Type="Self.Product_Disease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Product_Disease">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductIm__produ__5441852A">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="ProductImage" Type="Self.ProductImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProductImage">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rate__nuskha_id__6FE99F9F">
+          <End Role="Nuskha" Type="Self.Nuskha" Multiplicity="0..1" />
+          <End Role="Rate" Type="Self.Rate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nuskha">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Rate">
+              <PropertyRef Name="nuskha_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rate__user_id__70DDC3D8">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Rate" Type="Self.Rate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Rate">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NuskhaDisease_NuskhaDisease">
+          <End Role="NuskhaDisease" Type="Self.NuskhaDisease" Multiplicity="1" />
+          <End Role="NuskhaDisease1" Type="Self.NuskhaDisease" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="NuskhaDisease">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NuskhaDisease1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NuskhaStep_Nuskha">
+          <End Role="Nuskha" Type="Self.Nuskha" Multiplicity="0..1" />
+          <End Role="NuskhaStep" Type="Self.NuskhaStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nuskha">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NuskhaStep">
+              <PropertyRef Name="nuskha_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Nuskha">
+          <End Role="Nuskha" Type="Self.Nuskha" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nuskha">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="nuskha_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HakeemhikmatAppModelStoreContainer">
+          <EntitySet Name="Disease" EntityType="Self.Disease" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hakeem" EntityType="Self.Hakeem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ingredient" EntityType="Self.Ingredient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Nuskha" EntityType="Self.Nuskha" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NuskhaDisease" EntityType="Self.NuskhaDisease" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NuskhaIngredient" EntityType="Self.NuskhaIngredient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NuskhaStep" EntityType="Self.NuskhaStep" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order_Detail" EntityType="Self.Order_Detail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PatientDisease" EntityType="Self.PatientDisease" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product_Disease" EntityType="Self.Product_Disease" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductImage" EntityType="Self.ProductImage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rate" EntityType="Self.Rate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Hakeem__hakeem_i__4E88ABD4" Association="Self.FK__Hakeem__hakeem_i__4E88ABD4">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Hakeem" EntitySet="Hakeem" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Nuskha__hakeem_i__6383C8BA" Association="Self.FK__Nuskha__hakeem_i__6383C8BA">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Nuskha" EntitySet="Nuskha" />
+          </AssociationSet>
+          <AssociationSet Name="FK__NuskhaIng__ingre__6D0D32F4" Association="Self.FK__NuskhaIng__ingre__6D0D32F4">
+            <End Role="Ingredient" EntitySet="Ingredient" />
+            <End Role="NuskhaIngredient" EntitySet="NuskhaIngredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__NuskhaIng__nuskh__6C190EBB" Association="Self.FK__NuskhaIng__nuskh__6C190EBB">
+            <End Role="Nuskha" EntitySet="Nuskha" />
+            <End Role="NuskhaIngredient" EntitySet="NuskhaIngredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order_Det__order__29221CFB" Association="Self.FK__Order_Det__order__29221CFB">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="Order_Detail" EntitySet="Order_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order_Det__produ__282DF8C2" Association="Self.FK__Order_Det__produ__282DF8C2">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Order_Detail" EntitySet="Order_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orderss__user_id__2180FB33" Association="Self.FK__Orderss__user_id__2180FB33">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PatientDi__disea__0E6E26BF" Association="Self.FK__PatientDi__disea__0E6E26BF">
+            <End Role="Disease" EntitySet="Disease" />
+            <End Role="PatientDisease" EntitySet="PatientDisease" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__hakeem___5165187F" Association="Self.FK__Product__hakeem___5165187F">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product_D__disea__59FA5E80" Association="Self.FK__Product_D__disea__59FA5E80">
+            <End Role="Disease" EntitySet="Disease" />
+            <End Role="Product_Disease" EntitySet="Product_Disease" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product_D__produ__5AEE82B9" Association="Self.FK__Product_D__produ__5AEE82B9">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Product_Disease" EntitySet="Product_Disease" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductIm__produ__5441852A" Association="Self.FK__ProductIm__produ__5441852A">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductImage" EntitySet="ProductImage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rate__nuskha_id__6FE99F9F" Association="Self.FK__Rate__nuskha_id__6FE99F9F">
+            <End Role="Nuskha" EntitySet="Nuskha" />
+            <End Role="Rate" EntitySet="Rate" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rate__user_id__70DDC3D8" Association="Self.FK__Rate__user_id__70DDC3D8">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Rate" EntitySet="Rate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NuskhaDisease_NuskhaDisease" Association="Self.FK_NuskhaDisease_NuskhaDisease">
+            <End Role="NuskhaDisease" EntitySet="NuskhaDisease" />
+            <End Role="NuskhaDisease1" EntitySet="NuskhaDisease" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NuskhaStep_Nuskha" Association="Self.FK_NuskhaStep_Nuskha">
+            <End Role="Nuskha" EntitySet="Nuskha" />
+            <End Role="NuskhaStep" EntitySet="NuskhaStep" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Nuskha" Association="Self.FK_Product_Nuskha">
+            <End Role="Nuskha" EntitySet="Nuskha" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HakeemhikmatAppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Disease">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="decription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PatientDiseases" Relationship="Self.FK__PatientDi__disea__0E6E26BF" FromRole="Disease" ToRole="PatientDisease" />
+          <NavigationProperty Name="Product_Disease" Relationship="Self.FK__Product_D__disea__59FA5E80" FromRole="Disease" ToRole="Product_Disease" />
+        </EntityType>
+        <EntityType Name="Hakeem">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hakeem_id" Type="Int32" />
+          <Property Name="Experiences" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Hakeem__hakeem_i__4E88ABD4" FromRole="Hakeem" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="NuskhaIngredient">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nuskha_id" Type="Int32" />
+          <Property Name="ingredient_id" Type="Int32" />
+          <Property Name="quanity" Type="Int32" />
+          <Property Name="unit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Ingredient" Relationship="HakeemhikmatAppModel.FK__NuskhaIng__ingre__6D0D32F4" FromRole="NuskhaIngredient" ToRole="Ingredient" />
+          <NavigationProperty Name="Nuskha" Relationship="HakeemhikmatAppModel.FK__NuskhaIng__nuskh__6C190EBB" FromRole="NuskhaIngredient" ToRole="Nuskha" />
+        </EntityType>
+        <EntityType Name="Order_Detail">
+          <Key>
+            <PropertyRef Name="order_detail_id" />
+          </Key>
+          <Property Name="order_detail_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="product_id" Type="Int32" />
+          <Property Name="order_id" Type="Int32" />
+          <Property Name="unit_price" Type="Int32" />
+          <Property Name="rating" Type="Int32" />
+          <Property Name="comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Order" Relationship="Self.FK__Order_Det__order__29221CFB" FromRole="Order_Detail" ToRole="Orders" />
+          <NavigationProperty Name="Product" Relationship="HakeemhikmatAppModel.FK__Order_Det__produ__282DF8C2" FromRole="Order_Detail" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="DateTime" Precision="3" />
+          <Property Name="user_id" Type="Int32" />
+          <NavigationProperty Name="Order_Detail" Relationship="Self.FK__Order_Det__order__29221CFB" FromRole="Orders" ToRole="Order_Detail" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Orderss__user_id__2180FB33" FromRole="Orders" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="PatientDisease">
+          <Key>
+            <PropertyRef Name="pateintdisease" />
+          </Key>
+          <Property Name="pateintdisease" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="patient_id" Type="Int32" />
+          <Property Name="disease_id" Type="Int32" />
+          <NavigationProperty Name="Disease" Relationship="Self.FK__PatientDi__disea__0E6E26BF" FromRole="PatientDisease" ToRole="Disease" />
+        </EntityType>
+        <EntityType Name="Product_Disease">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="disease_id" Type="Int32" />
+          <Property Name="product_id" Type="Int32" />
+          <NavigationProperty Name="Disease" Relationship="Self.FK__Product_D__disea__59FA5E80" FromRole="Product_Disease" ToRole="Disease" />
+          <NavigationProperty Name="Product" Relationship="HakeemhikmatAppModel.FK__Product_D__produ__5AEE82B9" FromRole="Product_Disease" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Rate">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nuskha_id" Type="Int32" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="rating" Type="Double" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Rate__user_id__70DDC3D8" FromRole="Rate" ToRole="Users" />
+          <NavigationProperty Name="Nuskha" Relationship="HakeemhikmatAppModel.FK__Rate__nuskha_id__6FE99F9F" FromRole="Rate" ToRole="Nuskha" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="rol" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Hakeems" Relationship="Self.FK__Hakeem__hakeem_i__4E88ABD4" FromRole="Users" ToRole="Hakeem" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orderss__user_id__2180FB33" FromRole="Users" ToRole="Orders" />
+          <NavigationProperty Name="Rates" Relationship="Self.FK__Rate__user_id__70DDC3D8" FromRole="Users" ToRole="Rate" />
+          <NavigationProperty Name="Nuskhas" Relationship="HakeemhikmatAppModel.FK__Nuskha__hakeem_i__6383C8BA" FromRole="User" ToRole="Nuskha" />
+          <NavigationProperty Name="Products" Relationship="HakeemhikmatAppModel.FK__Product__hakeem___5165187F" FromRole="User" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK__PatientDi__disea__0E6E26BF">
+          <End Role="Disease" Type="Self.Disease" Multiplicity="0..1" />
+          <End Role="PatientDisease" Type="Self.PatientDisease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Disease">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PatientDisease">
+              <PropertyRef Name="disease_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product_D__disea__59FA5E80">
+          <End Role="Disease" Type="Self.Disease" Multiplicity="0..1" />
+          <End Role="Product_Disease" Type="Self.Product_Disease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Disease">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Product_Disease">
+              <PropertyRef Name="disease_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Hakeem__hakeem_i__4E88ABD4">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Hakeem" Type="Self.Hakeem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Hakeem">
+              <PropertyRef Name="hakeem_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order_Det__order__29221CFB">
+          <End Role="Orders" Type="Self.Order" Multiplicity="0..1" />
+          <End Role="Order_Detail" Type="Self.Order_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="order_id" />
+            </Principal>
+            <Dependent Role="Order_Detail">
+              <PropertyRef Name="order_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orderss__user_id__2180FB33">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rate__user_id__70DDC3D8">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Rate" Type="Self.Rate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Rate">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HakeemhikmatAppEntities3" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Diseases" EntityType="Self.Disease" />
+          <EntitySet Name="Hakeems" EntityType="Self.Hakeem" />
+          <EntitySet Name="NuskhaIngredients" EntityType="Self.NuskhaIngredient" />
+          <EntitySet Name="Order_Detail" EntityType="Self.Order_Detail" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="PatientDiseases" EntityType="Self.PatientDisease" />
+          <EntitySet Name="Product_Disease" EntityType="Self.Product_Disease" />
+          <EntitySet Name="Rates" EntityType="Self.Rate" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK__PatientDi__disea__0E6E26BF" Association="Self.FK__PatientDi__disea__0E6E26BF">
+            <End Role="Disease" EntitySet="Diseases" />
+            <End Role="PatientDisease" EntitySet="PatientDiseases" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product_D__disea__59FA5E80" Association="Self.FK__Product_D__disea__59FA5E80">
+            <End Role="Disease" EntitySet="Diseases" />
+            <End Role="Product_Disease" EntitySet="Product_Disease" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Hakeem__hakeem_i__4E88ABD4" Association="Self.FK__Hakeem__hakeem_i__4E88ABD4">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Hakeem" EntitySet="Hakeems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order_Det__order__29221CFB" Association="Self.FK__Order_Det__order__29221CFB">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="Order_Detail" EntitySet="Order_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orderss__user_id__2180FB33" Association="Self.FK__Orderss__user_id__2180FB33">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rate__user_id__70DDC3D8" Association="Self.FK__Rate__user_id__70DDC3D8">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Rate" EntitySet="Rates" />
+          </AssociationSet>
+          <EntitySet Name="Ingredients" EntityType="HakeemhikmatAppModel.Ingredient" />
+          <AssociationSet Name="FK__NuskhaIng__ingre__6D0D32F4" Association="HakeemhikmatAppModel.FK__NuskhaIng__ingre__6D0D32F4">
+            <End Role="Ingredient" EntitySet="Ingredients" />
+            <End Role="NuskhaIngredient" EntitySet="NuskhaIngredients" />
+          </AssociationSet>
+          <EntitySet Name="Nuskhas" EntityType="HakeemhikmatAppModel.Nuskha" />
+          <EntitySet Name="NuskhaDiseases" EntityType="HakeemhikmatAppModel.NuskhaDisease" />
+          <EntitySet Name="NuskhaSteps" EntityType="HakeemhikmatAppModel.NuskhaStep" />
+          <EntitySet Name="ProductImages" EntityType="HakeemhikmatAppModel.ProductImage" />
+          <AssociationSet Name="FK__Nuskha__hakeem_i__6383C8BA" Association="HakeemhikmatAppModel.FK__Nuskha__hakeem_i__6383C8BA">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Nuskha" EntitySet="Nuskhas" />
+          </AssociationSet>
+          <AssociationSet Name="FK__NuskhaIng__nuskh__6C190EBB" Association="HakeemhikmatAppModel.FK__NuskhaIng__nuskh__6C190EBB">
+            <End Role="Nuskha" EntitySet="Nuskhas" />
+            <End Role="NuskhaIngredient" EntitySet="NuskhaIngredients" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rate__nuskha_id__6FE99F9F" Association="HakeemhikmatAppModel.FK__Rate__nuskha_id__6FE99F9F">
+            <End Role="Nuskha" EntitySet="Nuskhas" />
+            <End Role="Rate" EntitySet="Rates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NuskhaStep_Nuskha" Association="HakeemhikmatAppModel.FK_NuskhaStep_Nuskha">
+            <End Role="Nuskha" EntitySet="Nuskhas" />
+            <End Role="NuskhaStep" EntitySet="NuskhaSteps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NuskhaDisease_NuskhaDisease" Association="HakeemhikmatAppModel.FK_NuskhaDisease_NuskhaDisease">
+            <End Role="NuskhaDisease" EntitySet="NuskhaDiseases" />
+            <End Role="NuskhaDisease1" EntitySet="NuskhaDiseases" />
+          </AssociationSet>
+          <EntitySet Name="Products" EntityType="HakeemhikmatAppModel.Product" />
+          <AssociationSet Name="FK_Product_Nuskha" Association="HakeemhikmatAppModel.FK_Product_Nuskha">
+            <End Role="Nuskha" EntitySet="Nuskhas" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order_Det__produ__282DF8C2" Association="HakeemhikmatAppModel.FK__Order_Det__produ__282DF8C2">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Order_Detail" EntitySet="Order_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__hakeem___5165187F" Association="HakeemhikmatAppModel.FK__Product__hakeem___5165187F">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product_D__produ__5AEE82B9" Association="HakeemhikmatAppModel.FK__Product_D__produ__5AEE82B9">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Product_Disease" EntitySet="Product_Disease" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductIm__produ__5441852A" Association="HakeemhikmatAppModel.FK__ProductIm__produ__5441852A">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductImage" EntitySet="ProductImages" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Ingredient">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Publicity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="NuskhaIngredients" Relationship="HakeemhikmatAppModel.FK__NuskhaIng__ingre__6D0D32F4" FromRole="Ingredient" ToRole="NuskhaIngredient" />
+        </EntityType>
+        <Association Name="FK__NuskhaIng__ingre__6D0D32F4">
+          <End Type="HakeemhikmatAppModel.Ingredient" Role="Ingredient" Multiplicity="0..1" />
+          <End Type="HakeemhikmatAppModel.NuskhaIngredient" Role="NuskhaIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NuskhaIngredient">
+              <PropertyRef Name="ingredient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Nuskha">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hakeem_id" Type="Int32" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="User" Relationship="HakeemhikmatAppModel.FK__Nuskha__hakeem_i__6383C8BA" FromRole="Nuskha" ToRole="User" />
+          <NavigationProperty Name="NuskhaIngredients" Relationship="HakeemhikmatAppModel.FK__NuskhaIng__nuskh__6C190EBB" FromRole="Nuskha" ToRole="NuskhaIngredient" />
+          <NavigationProperty Name="Rates" Relationship="HakeemhikmatAppModel.FK__Rate__nuskha_id__6FE99F9F" FromRole="Nuskha" ToRole="Rate" />
+          <NavigationProperty Name="NuskhaSteps" Relationship="HakeemhikmatAppModel.FK_NuskhaStep_Nuskha" FromRole="Nuskha" ToRole="NuskhaStep" />
+          <NavigationProperty Name="Products" Relationship="HakeemhikmatAppModel.FK_Product_Nuskha" FromRole="Nuskha" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="NuskhaDisease">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="disease_id" Type="Int32" />
+          <Property Name="nuskha_id" Type="Int32" />
+          <NavigationProperty Name="NuskhaDisease1" Relationship="HakeemhikmatAppModel.FK_NuskhaDisease_NuskhaDisease" FromRole="NuskhaDisease" ToRole="NuskhaDisease1" />
+          <NavigationProperty Name="NuskhaDisease2" Relationship="HakeemhikmatAppModel.FK_NuskhaDisease_NuskhaDisease" FromRole="NuskhaDisease1" ToRole="NuskhaDisease" />
+        </EntityType>
+        <EntityType Name="NuskhaStep">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="steps" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="nuskha_id" Type="Int32" />
+          <NavigationProperty Name="Nuskha" Relationship="HakeemhikmatAppModel.FK_NuskhaStep_Nuskha" FromRole="NuskhaStep" ToRole="Nuskha" />
+        </EntityType>
+        <EntityType Name="ProductImage">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="product_id" Type="Int32" />
+          <Property Name="image_path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Product" Relationship="HakeemhikmatAppModel.FK__ProductIm__produ__5441852A" FromRole="ProductImage" ToRole="Product" />
+        </EntityType>
+        <Association Name="FK__Nuskha__hakeem_i__6383C8BA">
+          <End Type="HakeemhikmatAppModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="HakeemhikmatAppModel.Nuskha" Role="Nuskha" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Nuskha">
+              <PropertyRef Name="hakeem_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__NuskhaIng__nuskh__6C190EBB">
+          <End Type="HakeemhikmatAppModel.Nuskha" Role="Nuskha" Multiplicity="0..1" />
+          <End Type="HakeemhikmatAppModel.NuskhaIngredient" Role="NuskhaIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nuskha">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NuskhaIngredient">
+              <PropertyRef Name="nuskha_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rate__nuskha_id__6FE99F9F">
+          <End Type="HakeemhikmatAppModel.Nuskha" Role="Nuskha" Multiplicity="0..1" />
+          <End Type="HakeemhikmatAppModel.Rate" Role="Rate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nuskha">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Rate">
+              <PropertyRef Name="nuskha_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NuskhaStep_Nuskha">
+          <End Type="HakeemhikmatAppModel.Nuskha" Role="Nuskha" Multiplicity="0..1" />
+          <End Type="HakeemhikmatAppModel.NuskhaStep" Role="NuskhaStep" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nuskha">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NuskhaStep">
+              <PropertyRef Name="nuskha_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NuskhaDisease_NuskhaDisease">
+          <End Type="HakeemhikmatAppModel.NuskhaDisease" Role="NuskhaDisease" Multiplicity="1" />
+          <End Type="HakeemhikmatAppModel.NuskhaDisease" Role="NuskhaDisease1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="NuskhaDisease">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="NuskhaDisease1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hakeem_id" Type="Int32" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="price" Type="Int32" />
+          <Property Name="usage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="nuskha_id" Type="Int32" />
+          <NavigationProperty Name="Nuskha" Relationship="HakeemhikmatAppModel.FK_Product_Nuskha" FromRole="Product" ToRole="Nuskha" />
+          <NavigationProperty Name="Order_Detail" Relationship="HakeemhikmatAppModel.FK__Order_Det__produ__282DF8C2" FromRole="Product" ToRole="Order_Detail" />
+          <NavigationProperty Name="User" Relationship="HakeemhikmatAppModel.FK__Product__hakeem___5165187F" FromRole="Product" ToRole="User" />
+          <NavigationProperty Name="Product_Disease" Relationship="HakeemhikmatAppModel.FK__Product_D__produ__5AEE82B9" FromRole="Product" ToRole="Product_Disease" />
+          <NavigationProperty Name="ProductImages" Relationship="HakeemhikmatAppModel.FK__ProductIm__produ__5441852A" FromRole="Product" ToRole="ProductImage" />
+        </EntityType>
+        <Association Name="FK_Product_Nuskha">
+          <End Type="HakeemhikmatAppModel.Nuskha" Role="Nuskha" Multiplicity="0..1" />
+          <End Type="HakeemhikmatAppModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nuskha">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="nuskha_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order_Det__produ__282DF8C2">
+          <End Type="HakeemhikmatAppModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="HakeemhikmatAppModel.Order_Detail" Role="Order_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Order_Detail">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__hakeem___5165187F">
+          <End Type="HakeemhikmatAppModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="HakeemhikmatAppModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="hakeem_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product_D__produ__5AEE82B9">
+          <End Type="HakeemhikmatAppModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="HakeemhikmatAppModel.Product_Disease" Role="Product_Disease" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Product_Disease">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductIm__produ__5441852A">
+          <End Type="HakeemhikmatAppModel.Product" Role="Product" Multiplicity="0..1" />
+          <End Type="HakeemhikmatAppModel.ProductImage" Role="ProductImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProductImage">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HakeemhikmatAppModelStoreContainer" CdmEntityContainer="HakeemhikmatAppEntities3">
+          <EntitySetMapping Name="Diseases">
+            <EntityTypeMapping TypeName="HakeemhikmatAppModel.Disease">
+              <MappingFragment StoreEntitySet="Disease">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="decription" ColumnName="decription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hakeems">
+            <EntityTypeMapping TypeName="HakeemhikmatAppModel.Hakeem">
+              <MappingFragment StoreEntitySet="Hakeem">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="hakeem_id" ColumnName="hakeem_id" />
+                <ScalarProperty Name="Experiences" ColumnName="Experiences" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NuskhaIngredients">
+            <EntityTypeMapping TypeName="HakeemhikmatAppModel.NuskhaIngredient">
+              <MappingFragment StoreEntitySet="NuskhaIngredient">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nuskha_id" ColumnName="nuskha_id" />
+                <ScalarProperty Name="ingredient_id" ColumnName="ingredient_id" />
+                <ScalarProperty Name="quanity" ColumnName="quanity" />
+                <ScalarProperty Name="unit" ColumnName="unit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Order_Detail">
+            <EntityTypeMapping TypeName="HakeemhikmatAppModel.Order_Detail">
+              <MappingFragment StoreEntitySet="Order_Detail">
+                <ScalarProperty Name="order_detail_id" ColumnName="order_detail_id" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="unit_price" ColumnName="unit_price" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="HakeemhikmatAppModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatientDiseases">
+            <EntityTypeMapping TypeName="HakeemhikmatAppModel.PatientDisease">
+              <MappingFragment StoreEntitySet="PatientDisease">
+                <ScalarProperty Name="pateintdisease" ColumnName="pateintdisease" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="disease_id" ColumnName="disease_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_Disease">
+            <EntityTypeMapping TypeName="HakeemhikmatAppModel.Product_Disease">
+              <MappingFragment StoreEntitySet="Product_Disease">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="disease_id" ColumnName="disease_id" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rates">
+            <EntityTypeMapping TypeName="HakeemhikmatAppModel.Rate">
+              <MappingFragment StoreEntitySet="Rate">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nuskha_id" ColumnName="nuskha_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="HakeemhikmatAppModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="rol" ColumnName="rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ingredients">
+            <EntityTypeMapping TypeName="HakeemhikmatAppModel.Ingredient">
+              <MappingFragment StoreEntitySet="Ingredient">
+                <ScalarProperty Name="Publicity" ColumnName="Publicity" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nuskhas">
+            <EntityTypeMapping TypeName="HakeemhikmatAppModel.Nuskha">
+              <MappingFragment StoreEntitySet="Nuskha">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="hakeem_id" ColumnName="hakeem_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NuskhaDiseases">
+            <EntityTypeMapping TypeName="HakeemhikmatAppModel.NuskhaDisease">
+              <MappingFragment StoreEntitySet="NuskhaDisease">
+                <ScalarProperty Name="nuskha_id" ColumnName="nuskha_id" />
+                <ScalarProperty Name="disease_id" ColumnName="disease_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NuskhaSteps">
+            <EntityTypeMapping TypeName="HakeemhikmatAppModel.NuskhaStep">
+              <MappingFragment StoreEntitySet="NuskhaStep">
+                <ScalarProperty Name="nuskha_id" ColumnName="nuskha_id" />
+                <ScalarProperty Name="steps" ColumnName="steps" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductImages">
+            <EntityTypeMapping TypeName="HakeemhikmatAppModel.ProductImage">
+              <MappingFragment StoreEntitySet="ProductImage">
+                <ScalarProperty Name="image_path" ColumnName="image_path" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="HakeemhikmatAppModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="nuskha_id" ColumnName="nuskha_id" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="usage" ColumnName="usage" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="hakeem_id" ColumnName="hakeem_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

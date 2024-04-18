@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="68c069cdfd9449d8ba1a6b289dd66ed8" Name="Diagram1">
+        <EntityTypeShape EntityType="HakeemhikmatAppModel.Disease" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HakeemhikmatAppModel.Hakeem" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HakeemhikmatAppModel.NuskhaIngredient" Width="1.5" PointX="5.25" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HakeemhikmatAppModel.Order_Detail" Width="1.5" PointX="5.25" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HakeemhikmatAppModel.Order" Width="1.5" PointX="3" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HakeemhikmatAppModel.PatientDisease" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HakeemhikmatAppModel.Product_Disease" Width="1.5" PointX="8.25" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HakeemhikmatAppModel.Rate" Width="1.5" PointX="8.25" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HakeemhikmatAppModel.User" Width="1.5" PointX="0.75" PointY="9.125" IsExpanded="true" />
+        <AssociationConnector Association="HakeemhikmatAppModel.FK__PatientDi__disea__0E6E26BF" ManuallyRouted="false" />
+        <AssociationConnector Association="HakeemhikmatAppModel.FK__Product_D__disea__59FA5E80" ManuallyRouted="false" />
+        <AssociationConnector Association="HakeemhikmatAppModel.FK__Hakeem__hakeem_i__4E88ABD4" ManuallyRouted="false" />
+        <AssociationConnector Association="HakeemhikmatAppModel.FK__Order_Det__order__29221CFB" ManuallyRouted="false" />
+        <AssociationConnector Association="HakeemhikmatAppModel.FK__Orderss__user_id__2180FB33" ManuallyRouted="false" />
+        <AssociationConnector Association="HakeemhikmatAppModel.FK__Rate__user_id__70DDC3D8" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="HakeemhikmatAppModel.Ingredient" Width="1.5" PointX="5.375" PointY="0.875" />
+        <AssociationConnector Association="HakeemhikmatAppModel.FK__NuskhaIng__ingre__6D0D32F4" />
+        <EntityTypeShape EntityType="HakeemhikmatAppModel.Nuskha" Width="1.5" PointX="3" PointY="22.375" />
+        <EntityTypeShape EntityType="HakeemhikmatAppModel.NuskhaDisease" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="HakeemhikmatAppModel.NuskhaStep" Width="1.5" PointX="5.25" PointY="22.75" />
+        <EntityTypeShape EntityType="HakeemhikmatAppModel.ProductImage" Width="1.5" PointX="5.25" PointY="19.25" />
+        <AssociationConnector Association="HakeemhikmatAppModel.FK__Nuskha__hakeem_i__6383C8BA" />
+        <AssociationConnector Association="HakeemhikmatAppModel.FK__NuskhaIng__nuskh__6C190EBB" />
+        <AssociationConnector Association="HakeemhikmatAppModel.FK__Rate__nuskha_id__6FE99F9F" />
+        <AssociationConnector Association="HakeemhikmatAppModel.FK_NuskhaStep_Nuskha" />
+        <AssociationConnector Association="HakeemhikmatAppModel.FK_NuskhaDisease_NuskhaDisease" />
+        <EntityTypeShape EntityType="HakeemhikmatAppModel.Product" Width="1.5" PointX="8.25" PointY="20.375" />
+        <AssociationConnector Association="HakeemhikmatAppModel.FK_Product_Nuskha" />
+        <AssociationConnector Association="HakeemhikmatAppModel.FK__Order_Det__produ__282DF8C2" />
+        <AssociationConnector Association="HakeemhikmatAppModel.FK__Product__hakeem___5165187F" />
+        <AssociationConnector Association="HakeemhikmatAppModel.FK__Product_D__produ__5AEE82B9" />
+        <AssociationConnector Association="HakeemhikmatAppModel.FK__ProductIm__produ__5441852A" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
