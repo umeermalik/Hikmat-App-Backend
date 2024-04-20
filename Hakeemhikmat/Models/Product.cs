@@ -26,9 +26,9 @@ namespace Hakeemhikmat.Models
         public Nullable<int> hakeem_id { get; set; }
         public string name { get; set; }
         public Nullable<int> price { get; set; }
-        public string usage { get; set; }
         public string gender { get; set; }
         public Nullable<int> nuskha_id { get; set; }
+        public string image { get; set; }
     
         public virtual Nuskha Nuskha { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

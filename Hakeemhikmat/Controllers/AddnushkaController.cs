@@ -7,8 +7,10 @@ using System.Net;
 using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Security.Cryptography;
+using System.Web;
 using System.Web.Helpers;
 using System.Web.Http;
+using System.Web.UI.WebControls;
 
 namespace Hakeemhikmat.Controllers
 {
@@ -62,7 +64,56 @@ namespace Hakeemhikmat.Controllers
 
 
         }
+        [HttpPost]
+        public HttpResponseMessage AddProduct()
+        {
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+                if (request == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+                }
+                string requestedname = request["name"];
+                string requestedNushkaid = request["N_id"];
+                var requestgender = request["gender"];
+                var requestprice = request["price"];
 
+                var requestH_id = request["h_id"];
+                var imageFile = request.Files["image"];
+                if (imageFile == null || imageFile.ContentLength == 0)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Image file is missing or empty");
+                }
+
+                // Save image file
+                string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                string imagePath = HttpContext.Current.Server.MapPath("~/Content/Images/" + uniqueFileName);
+                imageFile.SaveAs(imagePath);
+                Product newproduct = new Product();
+
+                {
+
+                    newproduct.nuskha_id = int.Parse(requestedNushkaid);
+                    newproduct.name = requestedname;
+                    newproduct.price = int.Parse(requestprice);
+                   
+                    newproduct.gender = requestgender;
+                    newproduct.hakeem_id = int.Parse(requestH_id);
+                    newproduct.image = uniqueFileName;
+
+                }
+                db.Products.Add(newproduct);
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, newproduct.id);
+
+
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
 
         [HttpPost]
         public HttpResponseMessage AddNushkaData()
@@ -324,7 +375,7 @@ namespace Hakeemhikmat.Controllers
             }
         }
         [HttpGet]
-        public IHttpActionResult GetAllRemedy()
+        public IHttpActionResult GetAllRemedy(int id)
         {
             try
             {
@@ -338,8 +389,13 @@ namespace Hakeemhikmat.Controllers
                 // Assuming 'db' is your DbContext instance and 'Nuskha' is the DbSet representing the 'Nuskha' table
                 string requestID = request["ID"];
                 var subquery = db.Nuskhas
-    .Where(n => n.hakeem_id.ToString() == requestID)
-    .Select(n => n.name);
+    .Where(n => n.hakeem_id == id)
+   
+    .Select(n=> new
+    {
+        n.name,
+        n.id, 
+    });
 
 
                 if (subquery == null || !subquery.Any())

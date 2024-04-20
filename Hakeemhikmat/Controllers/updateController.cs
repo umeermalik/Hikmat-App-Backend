@@ -13,29 +13,29 @@ namespace Hakeemhikmat.Controllers
     {
         HakeemhikmatAppEntities3 db = new HakeemhikmatAppEntities3();
 
-        [HttpPost]
-        public HttpResponseMessage updateProductprice(string name, int price)
-        {
-            try
-            {
-                var productToUpdate = db.Products
-                    .Where(p => p.name == name)
-                    .FirstOrDefault();
+        //[HttpPost]
+        //public HttpResponseMessage updateProductprice(string name, int price)
+        //{
+        //    try
+        //    {
+        //        var productToUpdate = db.Products
+        //            .Where(p => p.name == name)
+        //            .FirstOrDefault();
 
-                if (productToUpdate != null)
-                {
-                    productToUpdate.price = price;
-                    db.SaveChanges();
-                }
-                return Request.CreateResponse(HttpStatusCode.OK, "price of product updated");
-            }
-            catch (Exception ex)
-            {
-                // Return an error response with InternalServerError status and the exception message
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
-        }
-        [HttpPost]
+        //        if (productToUpdate != null)
+        //        {
+        //            productToUpdate.price = price;
+        //            db.SaveChanges();
+        //        }
+        //        return Request.CreateResponse(HttpStatusCode.OK, "price of product updated");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Return an error response with InternalServerError status and the exception message
+        //        return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+        //    }
+        //}
+        //[HttpPost]
         public HttpResponseMessage updateProductname(string name, string newname)
         {
             try

@@ -98,9 +98,9 @@
           <Property Name="hakeem_id" Type="int" />
           <Property Name="name" Type="varchar(max)" />
           <Property Name="price" Type="int" />
-          <Property Name="usage" Type="varchar(max)" />
           <Property Name="gender" Type="varchar" MaxLength="50" />
           <Property Name="nuskha_id" Type="int" />
+          <Property Name="image" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Product_Disease">
           <Key>
@@ -307,18 +307,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_NuskhaDisease_NuskhaDisease">
-          <End Role="NuskhaDisease" Type="Self.NuskhaDisease" Multiplicity="1" />
-          <End Role="NuskhaDisease1" Type="Self.NuskhaDisease" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="NuskhaDisease">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="NuskhaDisease1">
-              <PropertyRef Name="id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_NuskhaStep_Nuskha">
           <End Role="Nuskha" Type="Self.Nuskha" Multiplicity="0..1" />
           <End Role="NuskhaStep" Type="Self.NuskhaStep" Multiplicity="*" />
@@ -414,10 +402,6 @@
           <AssociationSet Name="FK__Rate__user_id__70DDC3D8" Association="Self.FK__Rate__user_id__70DDC3D8">
             <End Role="Users" EntitySet="Users" />
             <End Role="Rate" EntitySet="Rate" />
-          </AssociationSet>
-          <AssociationSet Name="FK_NuskhaDisease_NuskhaDisease" Association="Self.FK_NuskhaDisease_NuskhaDisease">
-            <End Role="NuskhaDisease" EntitySet="NuskhaDisease" />
-            <End Role="NuskhaDisease1" EntitySet="NuskhaDisease" />
           </AssociationSet>
           <AssociationSet Name="FK_NuskhaStep_Nuskha" Association="Self.FK_NuskhaStep_Nuskha">
             <End Role="Nuskha" EntitySet="Nuskha" />
@@ -820,9 +804,9 @@
           <Property Name="hakeem_id" Type="Int32" />
           <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="price" Type="Int32" />
-          <Property Name="usage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="nuskha_id" Type="Int32" />
+          <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Nuskha" Relationship="HakeemhikmatAppModel.FK_Product_Nuskha" FromRole="Product" ToRole="Nuskha" />
           <NavigationProperty Name="Order_Detail" Relationship="HakeemhikmatAppModel.FK__Order_Det__produ__282DF8C2" FromRole="Product" ToRole="Order_Detail" />
           <NavigationProperty Name="User" Relationship="HakeemhikmatAppModel.FK__Product__hakeem___5165187F" FromRole="Product" ToRole="User" />
@@ -1034,9 +1018,9 @@
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="HakeemhikmatAppModel.Product">
               <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="image" ColumnName="image" />
                 <ScalarProperty Name="nuskha_id" ColumnName="nuskha_id" />
                 <ScalarProperty Name="gender" ColumnName="gender" />
-                <ScalarProperty Name="usage" ColumnName="usage" />
                 <ScalarProperty Name="price" ColumnName="price" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="hakeem_id" ColumnName="hakeem_id" />
