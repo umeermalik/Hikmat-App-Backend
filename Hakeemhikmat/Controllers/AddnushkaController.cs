@@ -1,6 +1,8 @@
 ﻿using Antlr.Runtime.Tree;
 using Hakeemhikmat.Models;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -215,11 +217,14 @@ namespace Hakeemhikmat.Controllers
             }
 
         }
-        [HttpGet]//sir zahid wala kam
-        public HttpResponseMessage SearchNushka(int diseaseId, int maxAge, string gender)
+        //sir zahid wala kam
+        [HttpGet]
+        public HttpResponseMessage SearchNushka(string diseaseIds)
         {
             try
             {
+                string[] arr = diseaseIds.Split(',');
+
                 var request = System.Web.HttpContext.Current.Request;
 
                 if (request == null)
@@ -227,35 +232,33 @@ namespace Hakeemhikmat.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
                 }
 
-
-                // db.Nuskhas.Where(n => n.id == db.NuskhaDiseases.Where(nd => nd.disease_id == 1).Select(nd=> nd.id)).ToList();
-
-
-                var result = db.Nuskhas
-    .Where(n => db.NuskhaDiseases
-        .Where(nd => nd.disease_id == 1)
-        .Select(nd => nd.nuskha_id)
-        .Contains(n.id))
-    .ToList();
+                List<object> result = new List<object>(); 
+                foreach (string i in arr)
+                {
+                    int id = Convert.ToInt32(i);
 
 
-                //var result = (from nd in db.NuskhaDiseases
-                //              join n in db.Nuskhas on nd.nuskha_id equals n.id
-                //              join d in db.Diseases on nd.id equals d.id
-                //              where nd.disease_id == diseaseId &&
-                //                    nd.maxage == maxAge &&
-                //                    nd.gender == gender
-                //              select new
-                //              {
-                //                  NuskhaDisease = nd,
-                //                  NuskhaName = n.name,
-                //                  DiseaseName = d.name
-                //              }).ToList();
+                    var hello = (
+            from n in db.Nuskhas
+            join nd in db.NuskhaDiseases on n.id equals nd.nuskha_id
+            join rd in db.Rates on n.id equals rd.nuskha_id
+            join d in db.Diseases on nd.disease_id equals d.id  // Assuming Diseases table exists
+            where nd.disease_id == id
+            select new
+            {
+                NuskhaName = n.name,
+                DiseaseName = d.name,
+                //rate=rd.rating
+                
+            }
+                         ).ToList();
+                    result.AddRange(hello);
+                }
 
-                var linqQuery = db.NuskhaDiseases.Join(db.Nuskhas, nuskha => nuskha.nuskha_id, disease => diseaseId, (nuskha, disease) => nuskha);
-                Console.WriteLine(linqQuery);
-               // var res = db.NuskhaDiseases.Join(db.);
-                return Request.CreateResponse(HttpStatusCode.OK, linqQuery);
+
+
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
             }
             catch (Exception ex)
             {
