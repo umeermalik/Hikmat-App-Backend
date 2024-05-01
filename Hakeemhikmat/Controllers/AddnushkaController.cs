@@ -87,11 +87,18 @@ namespace Hakeemhikmat.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Image file is missing or empty");
                 }
-
-                // Save image file
-                string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
-                string imagePath = HttpContext.Current.Server.MapPath("~/Content/Images/" + uniqueFileName);
-                imageFile.SaveAs(imagePath);
+               
+               
+         
+                var path = HttpContext.Current.Server.MapPath("~/Content/images/" + imageFile.FileName);
+                imageFile.SaveAs(path);
+                /*var acc = db.images.Where(s => s.nic == nic).FirstOrDefault();
+                acc.profimage = fname;*/
+             
+                //// Save image file
+                //string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                //string imagePath = HttpContext.Current.Server.MapPath("~/Content/Images/" + uniqueFileName);
+                //imageFile.SaveAs(imagePath);
                 Product newproduct = new Product();
 
                 {
@@ -102,7 +109,7 @@ namespace Hakeemhikmat.Controllers
                    
                     newproduct.gender = requestgender;
                     newproduct.hakeem_id = int.Parse(requestH_id);
-                    newproduct.image = uniqueFileName;
+                    newproduct.image = imageFile.FileName;
 
                 }
                 db.Products.Add(newproduct);
@@ -241,14 +248,18 @@ namespace Hakeemhikmat.Controllers
                     var hello = (
             from n in db.Nuskhas
             join nd in db.NuskhaDiseases on n.id equals nd.nuskha_id
-            join rd in db.Rates on n.id equals rd.nuskha_id
+            //join rd in db.Rates on n.id equals rd.nuskha_id
+            join nu in db.Users  on n.hakeem_id equals nu.id
             join d in db.Diseases on nd.disease_id equals d.id  // Assuming Diseases table exists
             where nd.disease_id == id
             select new
             {
+                Nuskhaid = n.id,
                 NuskhaName = n.name,
                 DiseaseName = d.name,
-                //rate=rd.rating
+                hakeemname=nu.name,
+              
+               
                 
             }
                          ).ToList();
@@ -265,6 +276,126 @@ namespace Hakeemhikmat.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        [HttpGet]
+        public HttpResponseMessage GetSteps(int Nuskaid)
+        {
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+
+                if (request == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+                }
+
+                // Assuming 'db' is your Entity Framework DbContext instance
+                var chk = (from n in db.Nuskhas
+                           join s in db.NuskhaSteps on n.id equals s.nuskha_id
+                           where n.id == Nuskaid
+                           select new
+                           {
+                               Nuskhasteps = s.steps,
+                               Nuskhaname = n.name,
+                           }).ToList();
+
+                if (chk == null || !chk.Any())
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "No data found for the provided Nuskaid");
+                }
+
+                // If data is found, return the response with the data
+                return Request.CreateResponse(HttpStatusCode.OK, chk);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetIngredients(int Nuskaid)
+        {
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+
+                if (request == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+                }
+
+          
+                var chk = (from n in db.Nuskhas
+                           join s in db.NuskhaIngredients on n.id equals s.nuskha_id
+                           join i in db.Ingredients on s.ingredient_id equals i.id
+                           where n.id == Nuskaid
+                           select new
+                           {
+                             
+                               Nuskhaname = n.name,
+                               IngredientName = i.name ,
+                               ingredientquantity=s.quanity,
+                               ingredientunit = s.unit,
+                           }).ToList();
+
+
+                if (chk == null || !chk.Any())
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "No data found for the provided Nuskaid");
+                }
+
+            
+                return Request.CreateResponse(HttpStatusCode.OK, chk);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+        [HttpGet]
+        
+        public HttpResponseMessage Getproduct(int Nuskaid)
+        {
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+
+                if (request == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+                }
+
+
+                var chk = (from n in db.Nuskhas
+                           join s in db.Products on n.id equals s.nuskha_id
+                         
+                           where n.id == Nuskaid
+                           select new
+                           {
+
+                               Nuskhaname = n.name,
+                               Productname=s.name,
+                               productprice=s.price,
+                               productimage=s.image,
+                           }).ToList();
+
+
+                if (chk == null || !chk.Any())
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "No data found for the provided Nuskaid");
+                }
+
+
+                return Request.CreateResponse(HttpStatusCode.OK, chk);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+
 
         [HttpPost]
 
