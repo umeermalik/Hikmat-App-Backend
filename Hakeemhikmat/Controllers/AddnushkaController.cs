@@ -38,7 +38,8 @@ namespace Hakeemhikmat.Controllers
                 string requestedname = request["name"];
               
                 var requestedh_id = request["h_id"];
-          
+                var requestedpublicity = request["publicity"];
+
                 //var image_file = request.Files["image"];
                 Nuskha newnushka = new Nuskha();
                 {
@@ -53,6 +54,7 @@ namespace Hakeemhikmat.Controllers
                     //    newnushka.image = uniqueFileName;
                     //}
                     newnushka.name = requestedname;
+                    newnushka.publicity = requestedpublicity;
 
                 };
                 db.Nuskhas.Add(newnushka);
@@ -146,8 +148,10 @@ namespace Hakeemhikmat.Controllers
               
 
                 var requestedd_id = request["d_id"];
-
               
+
+
+
 
                 //var image_file = request.Files["image"];
                 NuskhaDisease newnushka = new NuskhaDisease();
@@ -165,6 +169,7 @@ namespace Hakeemhikmat.Controllers
                
                     newnushka.disease_id = int.Parse(requestedd_id);
                     newnushka.nuskha_id = int.Parse(requestedN_id);
+                    
 
 
                 };
@@ -251,7 +256,7 @@ namespace Hakeemhikmat.Controllers
             //join rd in db.Rates on n.id equals rd.nuskha_id
             join nu in db.Users  on n.hakeem_id equals nu.id
             join d in db.Diseases on nd.disease_id equals d.id  // Assuming Diseases table exists
-            where nd.disease_id == id
+            where nd.disease_id == id &&  n.publicity=="public"
             select new
             {
                 Nuskhaid = n.id,
