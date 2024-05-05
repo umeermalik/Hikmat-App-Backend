@@ -229,6 +229,48 @@ namespace Hakeemhikmat.Controllers
             }
 
         }
+
+        [HttpPost]
+
+        public HttpResponseMessage ratingcomments()
+        {
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+                if (request == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+                }
+                string requestn_id = request["n_id"];
+                string requestu_id= request["u_id"];
+                string requestrating = request["rating"];
+                string requestcomments = request["comments"];
+
+                Rate ing = new Rate();
+                {
+                    ing.nuskha_id = int.Parse(requestn_id);
+                    ing.user_id = int.Parse(requestu_id);
+                    ing.rating=int.Parse(requestrating);
+                    ing.comment = requestcomments;
+                }
+                db.Rates.Add(ing);
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, ing.id);
+
+
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+
+        }
+
+
+
+
+
+
         //sir zahid wala kam
         [HttpGet]
         public HttpResponseMessage SearchNushka(string diseaseIds)
