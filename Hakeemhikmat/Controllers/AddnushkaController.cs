@@ -344,6 +344,7 @@ namespace Hakeemhikmat.Controllers
                            {
                                Nuskhasteps = s.steps,
                                Nuskhaname = n.name,
+                               Nuskhausage=s.usage
                            }).ToList();
 
                 if (chk == null || !chk.Any())
@@ -492,6 +493,7 @@ namespace Hakeemhikmat.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
                 }
                 string requeststeps = request["steps"];
+                string requestusage = request["usage"];
 
 
                 string requestr_id = request["r_id"];
@@ -499,7 +501,9 @@ namespace Hakeemhikmat.Controllers
                 {
                     steps.nuskha_id = int.Parse(requestr_id);
                     steps.steps = requeststeps;
-                    
+                    steps.usage = requestusage;
+
+
 
                 }
                 db.NuskhaSteps.Add(steps);
