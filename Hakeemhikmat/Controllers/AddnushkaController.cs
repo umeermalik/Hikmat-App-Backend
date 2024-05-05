@@ -339,12 +339,48 @@ namespace Hakeemhikmat.Controllers
                 // Assuming 'db' is your Entity Framework DbContext instance
                 var chk = (from n in db.Nuskhas
                            join s in db.NuskhaSteps on n.id equals s.nuskha_id
+                         
                            where n.id == Nuskaid
                            select new
                            {
                                Nuskhasteps = s.steps,
                                Nuskhaname = n.name,
-                               Nuskhausage=s.usage
+                            
+                           }).ToList();
+
+                if (chk == null || !chk.Any())
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "No data found for the provided Nuskaid");
+                }
+
+                // If data is found, return the response with the data
+                return Request.CreateResponse(HttpStatusCode.OK, chk);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+        public HttpResponseMessage Getusage(int Nuskaid)
+        {
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+
+                if (request == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+                }
+
+                // Assuming 'db' is your Entity Framework DbContext instance
+                var chk = (from n in db.Nuskhas
+                       
+                           join u in db.Usages on n.id equals u.nuskha_id
+                           where n.id == Nuskaid
+                           select new
+                           {
+                            
+                               Nuskhausage = u.usages
                            }).ToList();
 
                 if (chk == null || !chk.Any())
@@ -493,7 +529,7 @@ namespace Hakeemhikmat.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
                 }
                 string requeststeps = request["steps"];
-                string requestusage = request["usage"];
+             
 
 
                 string requestr_id = request["r_id"];
@@ -501,12 +537,49 @@ namespace Hakeemhikmat.Controllers
                 {
                     steps.nuskha_id = int.Parse(requestr_id);
                     steps.steps = requeststeps;
-                    steps.usage = requestusage;
+                 
 
 
 
                 }
                 db.NuskhaSteps.Add(steps);
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, "added");
+
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+
+
+        [HttpPost]
+        public HttpResponseMessage AddUsage()
+        {
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+                if (request == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+                }
+              
+                string requestusage = request["usage"];
+
+
+                string requestr_id = request["r_id"];
+                Usage addusage = new Usage();
+                {
+                    addusage.nuskha_id = int.Parse(requestr_id);
+                    
+                    addusage.usages = requestusage;
+
+
+
+                }
+                db.Usages.Add(addusage);
                 db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, "added");
 
