@@ -271,6 +271,7 @@ namespace Hakeemhikmat.Controllers
 
 
 
+
         //sir zahid wala kam
         [HttpGet]
         public HttpResponseMessage SearchNushka(string diseaseIds)
@@ -286,35 +287,31 @@ namespace Hakeemhikmat.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
                 }
 
-                List<object> result = new List<object>(); 
+                List<object> result = new List<object>();
                 foreach (string i in arr)
                 {
                     int id = Convert.ToInt32(i);
 
-
                     var hello = (
-            from n in db.Nuskhas
-            join nd in db.NuskhaDiseases on n.id equals nd.nuskha_id
-            //join rd in db.Rates on n.id equals rd.nuskha_id
-            join nu in db.Users  on n.hakeem_id equals nu.id
-            join d in db.Diseases on nd.disease_id equals d.id  // Assuming Diseases table exists
-            where nd.disease_id == id &&  n.publicity=="public"
-            select new
-            {
-                Nuskhaid = n.id,
-                NuskhaName = n.name,
-                DiseaseName = d.name,
-                hakeemname=nu.name,
-              
-               
-                
-            }
-                         ).ToList();
+                        from n in db.Nuskhas
+                        join nd in db.NuskhaDiseases on n.id equals nd.nuskha_id
+                        join nu in db.Users on n.hakeem_id equals nu.id
+                        join d in db.Diseases on nd.disease_id equals d.id
+                        where nd.disease_id == id && n.publicity == "public"
+                        select new
+                        {
+                            Nuskhaid = n.id,
+                            NuskhaName = n.name,
+                            DiseaseName = d.name,
+                            HakeemName = nu.name,
+                            AverageRating = db.Rates
+                                                .Where(r => r.nuskha_id == n.id)
+                                                .Average(r => r.rating)
+                        }
+                    ).OrderByDescending(x => x.AverageRating).ToList(); // Order by AverageRating in ascending order
+
                     result.AddRange(hello);
                 }
-
-
-
 
                 return Request.CreateResponse(HttpStatusCode.OK, result);
             }
@@ -323,6 +320,8 @@ namespace Hakeemhikmat.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+
 
         [HttpGet]
         public HttpResponseMessage GetSteps(int Nuskaid)
