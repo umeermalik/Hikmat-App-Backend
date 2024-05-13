@@ -589,6 +589,44 @@ namespace Hakeemhikmat.Controllers
             }
         }
 
+        [HttpPost]
+        public HttpResponseMessage Productrating()
+        {
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+                if (request == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+                }
+                string requestp_id = request["p_id"];
+                string requestu_id = request["u_id"];
+                string requestrating = request["rating"];
+            
+
+                Productrating ing = new Productrating();
+                {
+                    ing.productid = int.Parse(requestp_id);
+                    ing.userid = int.Parse(requestu_id);
+                    ing.rating = int.Parse(requestrating);
+                 
+                }
+                db.Productratings.Add(ing);
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, ing.id);
+
+
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+
+        }
+
+
+
+    
 
 
 
@@ -605,8 +643,7 @@ namespace Hakeemhikmat.Controllers
 
 
 
-
-        [HttpGet]
+    [HttpGet]
         public IHttpActionResult showAllDisease()
         {
             try
@@ -632,6 +669,7 @@ namespace Hakeemhikmat.Controllers
             }
         }
         [HttpGet]
+
         public IHttpActionResult GetAllRemedy(int id)
         {
             try
