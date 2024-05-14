@@ -13,6 +13,7 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Http;
 using System.Web.UI.WebControls;
+using System.Xml.Linq;
 
 namespace Hakeemhikmat.Controllers
 {
@@ -437,6 +438,41 @@ namespace Hakeemhikmat.Controllers
             }
         }
         [HttpGet]
+        public HttpResponseMessage GetCommentOfNuskha(int nid)
+        {
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+
+                if (request == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+                }
+
+                var comments = (from n in db.Rates
+                                where n.nuskha_id == nid
+                                select new
+                                {
+                                    nuskhaid = n.nuskha_id,
+                                    rate = n.rating,
+                                    Comment = n.comment,
+                                    user = n.user_id,
+                                }).ToList();
+
+                if (!comments.Any())
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "No data found for the provided Nuskhaid");
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, comments);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
         
         public HttpResponseMessage Getproduct(int Nuskaid)
         {
@@ -456,7 +492,7 @@ namespace Hakeemhikmat.Controllers
                            where n.id == Nuskaid
                            select new
                            {
-
+                               productid=s.id,
                                Nuskhaname = n.name,
                                Productname=s.name,
                                productprice=s.price,
@@ -708,6 +744,7 @@ namespace Hakeemhikmat.Controllers
                 return InternalServerError(ex);
             }
         }
-
+       
     }
+
 }
