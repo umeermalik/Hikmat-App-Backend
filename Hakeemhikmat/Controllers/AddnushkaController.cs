@@ -187,20 +187,6 @@ namespace Hakeemhikmat.Controllers
 
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         [HttpPost]
         public HttpResponseMessage AddIngrdeients()
         {
@@ -231,6 +217,78 @@ namespace Hakeemhikmat.Controllers
             }
 
         }
+        [HttpPut]
+        public HttpResponseMessage UpdateIngredient(int id)
+        {
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+                if (request == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+                }
+
+                string requestName = request["name"];
+              
+
+               
+                var ingredient = db.Ingredients.Find(id);
+                if (ingredient == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Ingredient not found");
+                }
+
+               
+                ingredient.name = requestName;
+          
+
+             
+                db.SaveChanges();
+
+                return Request.CreateResponse(HttpStatusCode.OK, "Ingredient updated successfully");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+        [HttpPut]
+        public HttpResponseMessage UpdateIngredientquantity(int i_id,int n_id)
+        {
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+                if (request == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+                }
+
+                string requestquantity = request["name"];
+                string requestunit = request["name"];
+
+
+
+                var ingredient = db.NuskhaIngredients.Find(i_id, n_id);
+                if (ingredient == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Ingredient not found");
+                }
+
+
+                ingredient.quanity = int.Parse(requestquantity);
+                ingredient.unit = requestunit;
+
+
+                db.SaveChanges();
+
+                return Request.CreateResponse(HttpStatusCode.OK, "Ingredient updated successfully");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
 
         [HttpPost]
 
@@ -268,13 +326,8 @@ namespace Hakeemhikmat.Controllers
 
         }
 
-
-
-
-
-
-
         //sir zahid wala kam
+
         [HttpGet]
         public HttpResponseMessage SearchNushka(string diseaseIds)
         {
@@ -306,6 +359,7 @@ namespace Hakeemhikmat.Controllers
                             NuskhaName = n.name,
                             DiseaseName = d.name,
                             HakeemName = nu.name,
+                            hakeemid = nu.id,
                             AverageRating = db.Rates
                                                 .Where(r => r.nuskha_id == n.id)
                                                 .Average(r => r.rating)
@@ -322,8 +376,6 @@ namespace Hakeemhikmat.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
-
-
 
         [HttpGet]
         public HttpResponseMessage GetSteps(int Nuskaid)
@@ -453,11 +505,12 @@ namespace Hakeemhikmat.Controllers
                 var comments = (from n in db.Rates
                                 where n.nuskha_id == nid
                                 select new
-                                {
+                                {   
                                     nuskhaid = n.nuskha_id,
                                     rate = n.rating,
                                     Comment = n.comment,
                                     user = n.user_id,
+                                    commentid=n.id
                                 }).ToList();
 
                 if (!comments.Any())
@@ -626,61 +679,93 @@ namespace Hakeemhikmat.Controllers
             }
         }
 
-        [HttpPost]
-        public HttpResponseMessage Productrating()
-        {
-            try
-            {
-                var request = System.Web.HttpContext.Current.Request;
-                if (request == null)
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
-                }
-                string requestp_id = request["p_id"];
-                string requestu_id = request["u_id"];
-                string requestrating = request["rating"];
+        //[HttpPost]
+        //public HttpResponseMessage Productrating()
+        //{
+        //    try
+        //    {
+        //        var request = System.Web.HttpContext.Current.Request;
+        //        if (request == null)
+        //        {
+        //            return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+        //        }
+        //        string requestp_id = request["p_id"];
+        //        string requestu_id = request["u_id"];
+        //        string requestrating = request["rating"];
             
 
-                Productrating ing = new Productrating();
-                {
-                    ing.productid = int.Parse(requestp_id);
-                    ing.userid = int.Parse(requestu_id);
-                    ing.rating = int.Parse(requestrating);
+        //        Productrating ing = new Productrating();
+        //        {
+        //            ing.productid = int.Parse(requestp_id);
+        //            ing.userid = int.Parse(requestu_id);
+        //            ing.rating = int.Parse(requestrating);
                  
-                }
-                db.Productratings.Add(ing);
-                db.SaveChanges();
-                return Request.CreateResponse(HttpStatusCode.OK, ing.id);
+        //        }
+        //        db.Productratings.Add(ing);
+        //        db.SaveChanges();
+        //        return Request.CreateResponse(HttpStatusCode.OK, ing.id);
 
 
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+        //    }
 
-        }
+        //}
+        
+        //public HttpResponseMessage Repliescomment()
+        //{
+        //    try {
+        //        var request = System.Web.HttpContext.Current.Request;
+        //        if (request == null)
+        //        {
+        //            return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+        //        }
+               
+        //        string requestu_id = request["u_id"];
+        //        string requeth_id = request["h_id"];
+        //        string requestRating = request["Raring"];              
+        //        //table name is comment 
+        //        hakeemrating newcomment = new Hakeemhikmat();
+        //        {
+        //            newcomment.user_id= int.Parse(requestu_id);
+        //            newcomment.commentid = int.Parse(requetcommentid);
+        //            newcomment.Comment = requestReplyComment;
+        //        }
+        //        db.Comments.Add(newcomment);
+        //        db.SaveChanges();
+        //        return Request.CreateResponse(HttpStatusCode.OK);
 
 
 
-    
 
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
 
+        //    }
+        //}
+        
+        //public HttpResponseMessage Addhakeemrating()
+        //{
+        //    try
+        //    {
+        //        var request = System.Web.HttpContext.Current.Request;
+        //        if (request == null)
+        //        {
+        //            return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    [HttpGet]
+        //    }
+        //}
+       
+        [HttpGet]
         public IHttpActionResult showAllDisease()
         {
             try
@@ -705,6 +790,43 @@ namespace Hakeemhikmat.Controllers
                 return InternalServerError(ex);
             }
         }
+        [HttpPost]
+        public HttpResponseMessage HakeemRating()
+
+        {
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+                if (request == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+                }
+                string requestu_id = request["u_id"];
+                string requestrating = request["rating"];
+                string requesth_id = request["h_id"];
+
+                Hakeemrate newrate = new Hakeemrate();
+                {
+                    newrate.hakeem_id = int.Parse(requesth_id);
+                    newrate.rating = int.Parse(requestrating);
+                    newrate.user_id = int.Parse(requestu_id);
+
+                }
+                db.Hakeemrate.Add(newrate);
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, newrate.id);
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+        [HttpPut]
+
         [HttpGet]
 
         public IHttpActionResult GetAllRemedy(int id)
@@ -736,7 +858,6 @@ namespace Hakeemhikmat.Controllers
                 }
                 else
                 {
-                    // Assuming you want to return the results of the subquery
                     return Ok(subquery.ToList());
                 }
             }
@@ -745,7 +866,10 @@ namespace Hakeemhikmat.Controllers
                 return InternalServerError(ex);
             }
         }
-       
+
+        
+
+
     }
 
 }
