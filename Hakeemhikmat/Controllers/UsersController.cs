@@ -123,7 +123,7 @@ namespace Hakeemhikmat.Controllers
         {
             try
             {
-                var chk = db.Users.Where(u => u.email == email && u.password == password).FirstOrDefault();
+                var chk = db.Users.Where(u => u.email == email && u.password == password).FirstOrDefault();         
                 if (chk == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, "User not Found");
@@ -182,10 +182,17 @@ namespace Hakeemhikmat.Controllers
                     newuser.email = requestedemail;
                     newuser.password = requestedpassword;
                     newuser.rol = requestedrol;
-
+                    
                 };
                 db.Users.Add(newuser);
                 db.SaveChanges();
+
+                if (newuser.rol == "hakeem")
+                {
+
+                    db.Hakeems.Add(new Hakeem { hakeem_id = newuser.id });
+                    db.SaveChanges();
+                }
                 return Request.CreateResponse(HttpStatusCode.OK,newuser.id);
             }
             catch (Exception ex)
