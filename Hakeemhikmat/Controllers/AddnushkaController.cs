@@ -364,7 +364,7 @@ namespace Hakeemhikmat.Controllers
                                                 .Where(r => r.nuskha_id == n.id)
                                                 .Average(r => r.rating)
                         }
-                    ).OrderByDescending(x => x.AverageRating).ToList(); // Order by AverageRating in ascending order
+                    ).OrderByDescending(x => x.AverageRating).ToList(); 
 
                     result.AddRange(hello);
                 }
@@ -791,40 +791,30 @@ namespace Hakeemhikmat.Controllers
             }
         }
         [HttpPost]
-        public HttpResponseMessage HakeemRating()
-
+        
+        public HttpResponseMessage HakeemRating(int user_id, int h_id, int rating)
         {
             try
             {
-                var request = System.Web.HttpContext.Current.Request;
-                if (request == null)
+                Hakeemrate newrate = new Hakeemrate
                 {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
-                }
-                string requestu_id = request["u_id"];
-                string requestrating = request["rating"];
-                string requesth_id = request["h_id"];
+                    user_id = user_id,
+                    h_id = h_id,
+                    rating = rating
+                };
 
-                Hakeemrate newrate = new Hakeemrate();
-                {
-                    newrate.hakeem_id = int.Parse(requesth_id);
-                    newrate.rating = int.Parse(requestrating);
-                    newrate.user_id = int.Parse(requestu_id);
-
-                }
                 db.Hakeemrate.Add(newrate);
                 db.SaveChanges();
                 return Request.CreateResponse(HttpStatusCode.OK, newrate.id);
-
-
-
-
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+                // Log the detailed error information
+                System.Diagnostics.Debug.WriteLine("Error while updating the entries: " + ex.ToString());
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.ToString());
             }
         }
+
         [HttpPut]
 
         [HttpGet]

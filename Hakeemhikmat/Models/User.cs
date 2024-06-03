@@ -19,16 +19,18 @@ namespace Hakeemhikmat.Models
         {
             this.Hakeems = new HashSet<Hakeem>();
             this.Orders = new HashSet<Order>();
+            this.Products = new HashSet<Product>();
             this.Rates = new HashSet<Rate>();
             this.Nuskhas = new HashSet<Nuskha>();
-            this.Products = new HashSet<Product>();
+            this.Comments = new HashSet<Comments>();
+            this.Productrating = new HashSet<Productrating>();
+            this.Hakeemrate = new HashSet<Hakeemrate>();
         }
     
         public int id { get; set; }
         public string name { get; set; }
         public string email { get; set; }
         public string password { get; set; }
-        public string image { get; set; }
         public string rol { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -36,10 +38,16 @@ namespace Hakeemhikmat.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Product> Products { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Rate> Rates { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Nuskha> Nuskhas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Comments> Comments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Productrating> Productrating { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Hakeemrate> Hakeemrate { get; set; }
     }
 }
