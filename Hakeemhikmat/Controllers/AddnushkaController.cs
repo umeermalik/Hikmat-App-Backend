@@ -218,40 +218,40 @@ namespace Hakeemhikmat.Controllers
 
         }
         [HttpPut]
-        public HttpResponseMessage UpdateIngredient(int id)
-        {
-            try
-            {
-                var request = System.Web.HttpContext.Current.Request;
-                if (request == null)
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
-                }
+        //public HttpResponseMessage UpdateIngredient(int id)
+        //{
+        //    try
+        //    {
+        //        var request = System.Web.HttpContext.Current.Request;
+        //        if (request == null)
+        //        {
+        //            return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+        //        }
 
-                string requestName = request["name"];
+        //        string requestName = request["name"];
               
 
                
-                var ingredient = db.Ingredients.Find(id);
-                if (ingredient == null)
-                {
-                    return Request.CreateResponse(HttpStatusCode.NotFound, "Ingredient not found");
-                }
+        //        var ingredient = db.Ingredients.Find(id);
+        //        if (ingredient == null)
+        //        {
+        //            return Request.CreateResponse(HttpStatusCode.NotFound, "Ingredient not found");
+        //        }
 
                
-                ingredient.name = requestName;
+        //        ingredient.name = requestName;
           
 
              
-                db.SaveChanges();
+        //        db.SaveChanges();
 
-                return Request.CreateResponse(HttpStatusCode.OK, "Ingredient updated successfully");
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
-        }
+        //        return Request.CreateResponse(HttpStatusCode.OK, "Ingredient updated successfully");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+        //    }
+        //}
         [HttpPut]
         public HttpResponseMessage UpdateIngredientquantity(int i_id,int n_id)
         {
