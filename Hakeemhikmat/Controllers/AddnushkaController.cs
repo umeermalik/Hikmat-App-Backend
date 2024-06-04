@@ -263,12 +263,12 @@ namespace Hakeemhikmat.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
                 }
 
-                string requestquantity = request["name"];
-                string requestunit = request["name"];
+                string requestquantity = request["quanity"];
+                string requestunit = request["unit"];
 
 
 
-                var ingredient = db.NuskhaIngredients.Find(i_id, n_id);
+                var ingredient = db.NuskhaIngredients.Where(ni => ni.ingredient_id == i_id && ni.nuskha_id == n_id).FirstOrDefault();
                 if (ingredient == null)
                 {
                     return Request.CreateResponse(HttpStatusCode.NotFound, "Ingredient not found");
@@ -290,6 +290,7 @@ namespace Hakeemhikmat.Controllers
         }
 
 
+        
         [HttpPost]
 
         public HttpResponseMessage ratingcomments()
@@ -325,10 +326,35 @@ namespace Hakeemhikmat.Controllers
             }
 
         }
-
-        //sir zahid wala kam
-
         [HttpGet]
+        public HttpResponseMessage Getall (int n_id)
+        {
+            try {
+
+                var query = from i in db.Ingredients
+                            join ni in db.NuskhaIngredients on i.id equals ni.ingredient_id
+                            where ni.nuskha_id == n_id
+                            select new
+                            {   i.id,
+                                i.name,
+                                ni.quanity,
+                                ni.unit
+                            };
+
+                var result = query.ToList();
+
+                // Return the result as a JSON response
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions and return an appropriate error message
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+            //sir zahid wala kam
+
+            [HttpGet]
         public HttpResponseMessage SearchNushka(string diseaseIds)
         {
             try
