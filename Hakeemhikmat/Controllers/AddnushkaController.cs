@@ -402,6 +402,54 @@ namespace Hakeemhikmat.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+        [HttpGet]
+        public HttpResponseMessage Searchhakeem(string diseaseIds)
+        {
+            try
+            {
+                string[] arr = diseaseIds.Split(',');
+
+                var request = System.Web.HttpContext.Current.Request;
+
+                if (request == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+                }
+
+                List<object> result = new List<object>();
+                foreach (string i in arr)
+                {
+                    int id = Convert.ToInt32(i);
+
+                    var hello = (
+                        from n in db.Nuskhas
+                        join nd in db.NuskhaDiseases on n.id equals nd.nuskha_id
+                        join nu in db.Users on n.hakeem_id equals nu.id
+                        join d in db.Diseases on nd.disease_id equals d.id
+                        where nd.disease_id == id && n.publicity == "public"
+                        select new
+                        {
+                            Nuskhaid = n.id,
+                            NuskhaName = n.name,
+                            DiseaseName = d.name,
+                            HakeemName = nu.name,
+                            hakeemid = nu.id,
+                            AverageRating = db.Hakeemrate
+                                        .Where(r => r.id == n.hakeem_id)
+                                        .Average(r => r.rating)
+                        }
+                   ).OrderByDescending(x => x.AverageRating).ToList();
+
+                    result.AddRange(hello);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
 
         [HttpGet]
         public HttpResponseMessage GetSteps(int Nuskaid)
