@@ -218,40 +218,40 @@ namespace Hakeemhikmat.Controllers
 
         }
         [HttpPut]
-        //public HttpResponseMessage UpdateIngredient(int id)
-        //{
-        //    try
-        //    {
-        //        var request = System.Web.HttpContext.Current.Request;
-        //        if (request == null)
-        //        {
-        //            return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
-        //        }
+        public HttpResponseMessage UpdateIngredient(int id)
+        {
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+                if (request == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+                }
 
-        //        string requestName = request["name"];
+                string requestName = request["name"];
               
 
                
-        //        var ingredient = db.Ingredients.Find(id);
-        //        if (ingredient == null)
-        //        {
-        //            return Request.CreateResponse(HttpStatusCode.NotFound, "Ingredient not found");
-        //        }
+                var ingredient = db.Ingredients.Find(id);
+                if (ingredient == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Ingredient not found");
+                }
 
                
-        //        ingredient.name = requestName;
+                ingredient.name = requestName;
           
 
              
-        //        db.SaveChanges();
+                db.SaveChanges();
 
-        //        return Request.CreateResponse(HttpStatusCode.OK, "Ingredient updated successfully");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-        //    }
-        //}
+                return Request.CreateResponse(HttpStatusCode.OK, "Ingredient updated successfully");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
         [HttpPut]
         public HttpResponseMessage UpdateIngredientquantity(int i_id,int n_id)
         {
@@ -388,7 +388,10 @@ namespace Hakeemhikmat.Controllers
                             hakeemid = nu.id,
                             AverageRating = db.Rates
                                                 .Where(r => r.nuskha_id == n.id)
-                                                .Average(r => r.rating)
+                                                .Average(r => r.rating),
+                            RatingCount = db.Rates
+                                        .Where(r => r.nuskha_id == n.id)
+                                        .Count()
                         }
                     ).OrderByDescending(x => x.AverageRating).ToList(); 
 
@@ -421,7 +424,7 @@ namespace Hakeemhikmat.Controllers
                 {
                     int id = Convert.ToInt32(i);
 
-                    var hello = (
+                    var hakeemNuskhaRatings = (
                         from n in db.Nuskhas
                         join nd in db.NuskhaDiseases on n.id equals nd.nuskha_id
                         join nu in db.Users on n.hakeem_id equals nu.id
@@ -429,18 +432,46 @@ namespace Hakeemhikmat.Controllers
                         where nd.disease_id == id && n.publicity == "public"
                         select new
                         {
-                            Nuskhaid = n.id,
+                            NuskhaId = n.id,
                             NuskhaName = n.name,
                             DiseaseName = d.name,
+                            HakeemId = nu.id,
                             HakeemName = nu.name,
-                            hakeemid = nu.id,
-                            AverageRating = db.Hakeemrate
-                                        .Where(r => r.id == n.hakeem_id)
-                                        .Average(r => r.rating)
+                            NuskhaRating = db.Rates
+                                            .Where(r => r.nuskha_id == n.id)
+                                            .Average(r => (double?)r.rating) ?? 0 ,
+                            RatingCount = db.Rates
+                                    .Where(r => r.nuskha_id == n.id)
+                                    .Count()
                         }
-                   ).OrderByDescending(x => x.AverageRating).ToList();
+                    ).ToList();
 
-                    result.AddRange(hello);
+                    var hakeemAverageRatings = hakeemNuskhaRatings
+                        .GroupBy(x => x.HakeemId)
+                        .Select(g => new
+                        {
+                            HakeemId = g.Key,
+                            AverageRating = g.Average(x => x.NuskhaRating),
+                           
+                        })
+                        .ToList();
+
+                    var finalResult = (
+                        from nuskha in hakeemNuskhaRatings
+                        join hr in hakeemAverageRatings on nuskha.HakeemId equals hr.HakeemId
+                        select new
+                        {
+                            Nuskhaid = nuskha.NuskhaId,
+                            NuskhaName = nuskha.NuskhaName,
+                            DiseaseName = nuskha.DiseaseName,
+                            HakeemName = nuskha.HakeemName,
+                            HakeemId = nuskha.HakeemId,
+                            AverageRating = hr.AverageRating,
+                            RatingCount = nuskha.RatingCount,
+                        }
+                    ).OrderByDescending(x => x.AverageRating).ToList();
+
+                    result.AddRange(finalResult);
                 }
 
                 return Request.CreateResponse(HttpStatusCode.OK, result);
@@ -450,6 +481,7 @@ namespace Hakeemhikmat.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
 
         [HttpGet]
         public HttpResponseMessage GetSteps(int Nuskaid)
