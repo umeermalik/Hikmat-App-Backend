@@ -798,14 +798,14 @@ namespace Hakeemhikmat.Controllers
         //        string requestp_id = request["p_id"];
         //        string requestu_id = request["u_id"];
         //        string requestrating = request["rating"];
-            
+
 
         //        Productrating ing = new Productrating();
         //        {
         //            ing.productid = int.Parse(requestp_id);
         //            ing.userid = int.Parse(requestu_id);
         //            ing.rating = int.Parse(requestrating);
-                 
+
         //        }
         //        db.Productratings.Add(ing);
         //        db.SaveChanges();
@@ -819,41 +819,45 @@ namespace Hakeemhikmat.Controllers
         //    }
 
         //}
-        
-        //public HttpResponseMessage Repliescomment()
-        //{
-        //    try {
-        //        var request = System.Web.HttpContext.Current.Request;
-        //        if (request == null)
-        //        {
-        //            return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
-        //        }
-               
-        //        string requestu_id = request["u_id"];
-        //        string requeth_id = request["h_id"];
-        //        string requestRating = request["Raring"];              
-        //        //table name is comment 
-        //        hakeemrating newcomment = new Hakeemhikmat();
-        //        {
-        //            newcomment.user_id= int.Parse(requestu_id);
-        //            newcomment.commentid = int.Parse(requetcommentid);
-        //            newcomment.Comment = requestReplyComment;
-        //        }
-        //        db.Comments.Add(newcomment);
-        //        db.SaveChanges();
-        //        return Request.CreateResponse(HttpStatusCode.OK);
+        [HttpPost]
+
+        public HttpResponseMessage Repliescomment()
+        {
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+                if (request == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+                }
+
+                string requestu_id = request["u_id"];
+                string requetcommentid = request["commentid"];
+                string requestcomment = request["comment"];
+
+                Comments newcomment = new Comments();
+                {
+                    newcomment.commentid = int.Parse(requetcommentid);
+                    newcomment.user_id = int.Parse(requestu_id);
+                    newcomment.Comment = requestcomment;
+                }
+                db.Comments.Add(newcomment);
+                db.SaveChanges();
+
+
+                return Request.CreateResponse(HttpStatusCode.OK);
 
 
 
 
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
 
-        //    }
-        //}
-        
+            }
+        }
+
         //public HttpResponseMessage Addhakeemrating()
         //{
         //    try
@@ -870,7 +874,7 @@ namespace Hakeemhikmat.Controllers
 
         //    }
         //}
-       
+
         [HttpGet]
         public IHttpActionResult showAllDisease()
         {
