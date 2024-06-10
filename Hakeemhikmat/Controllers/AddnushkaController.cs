@@ -609,6 +609,7 @@ namespace Hakeemhikmat.Controllers
                 }
 
                 var comments = (from n in db.Rates
+                                join u in db.Users on n.user_id equals u.id
                                 where n.nuskha_id == nid
                                 select new
                                 {   
@@ -616,6 +617,7 @@ namespace Hakeemhikmat.Controllers
                                     rate = n.rating,
                                     Comment = n.comment,
                                     user = n.user_id,
+                                    usermail=u.email,
                                     commentid=n.id
                                 }).ToList();
 
@@ -845,7 +847,7 @@ namespace Hakeemhikmat.Controllers
                 db.SaveChanges();
 
 
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.OK,"ohh yeah");
 
 
 
@@ -858,6 +860,29 @@ namespace Hakeemhikmat.Controllers
             }
         }
 
+        [HttpGet]
+        public HttpResponseMessage GetAllCommentReply( int c_id)
+        {
+            try
+            {
+                var result= (from n in db.Comments
+                             join s in db.Rates on n.commentid equals s.id
+                             join u in db.Users on  s.user_id equals u.id
+                             
+                             where n.commentid == c_id
+                             select new
+                             {
+                                 usermail=u.email,
+                                 replycomment=n.Comment
+                             }).ToList();
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+
+            }
+            catch(Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
         //public HttpResponseMessage Addhakeemrating()
         //{
         //    try
@@ -966,8 +991,78 @@ namespace Hakeemhikmat.Controllers
                 return InternalServerError(ex);
             }
         }
+        [HttpPut]
+        public HttpResponseMessage UpdateIngredientquantityAfterUploading(int i_id, int n_id)
+        {
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+                if (request == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+                }
 
-        
+                string requestquantity = request["quanity"];
+                string requestunit = request["unit"];
+
+
+
+                var ingredient = db.NuskhaIngredients.Where(ni => ni.ingredient_id == i_id && ni.nuskha_id == n_id).FirstOrDefault();
+                if (ingredient == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Ingredient not found");
+                }
+
+
+                ingredient.quanity = int.Parse(requestquantity);
+                ingredient.unit = requestunit;
+
+
+                db.SaveChanges();
+
+                return Request.CreateResponse(HttpStatusCode.OK, "Ingredient updated successfully");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+        [HttpPut]
+        public HttpResponseMessage UpdateIngredientStatus( int n_id)
+        {
+            try
+            {
+                var request = System.Web.HttpContext.Current.Request;
+                if (request == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Request is null");
+                }
+
+                var requestedpublicity = request["publicity"];
+
+
+
+                var ingredient = db.Nuskhas.Where(ni => ni.id == n_id).FirstOrDefault();
+                if (ingredient == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "Ingredient not found");
+                }
+
+
+                ingredient.publicity = requestedpublicity;
+               
+
+
+                db.SaveChanges();
+
+                return Request.CreateResponse(HttpStatusCode.OK, "Ingredient updated successfully");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
 
 
     }
