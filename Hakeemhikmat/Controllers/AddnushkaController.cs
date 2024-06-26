@@ -1,5 +1,6 @@
 ﻿using Antlr.Runtime.Tree;
 using Hakeemhikmat.Models;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -377,7 +378,7 @@ namespace Hakeemhikmat.Controllers
                         from n in db.Nuskhas
                         join nd in db.NuskhaDiseases on n.id equals nd.nuskha_id
                         join nu in db.Users on n.hakeem_id equals nu.id
-                        join d in db.Diseases on nd.disease_id equals d.id
+                        join d in db.Disease on nd.disease_id equals d.id
                         where nd.disease_id == id && n.publicity == "public"
                         select new
                         {
@@ -386,6 +387,7 @@ namespace Hakeemhikmat.Controllers
                             DiseaseName = d.name,
                             HakeemName = nu.name,
                             hakeemid = nu.id,
+                            DiseaseTage=d.Tags,
                             AverageRating = db.Rates
                                                 .Where(r => r.nuskha_id == n.id)
                                                 .Average(r => r.rating),
@@ -393,7 +395,7 @@ namespace Hakeemhikmat.Controllers
                                         .Where(r => r.nuskha_id == n.id)
                                         .Count()
                         }
-                    ).OrderByDescending(x => x.AverageRating).ToList(); 
+                    ).OrderByDescending(x => x.RatingCount).ToList(); 
 
                     result.AddRange(hello);
                 }
@@ -428,7 +430,7 @@ namespace Hakeemhikmat.Controllers
                         from n in db.Nuskhas
                         join nd in db.NuskhaDiseases on n.id equals nd.nuskha_id
                         join nu in db.Users on n.hakeem_id equals nu.id
-                        join d in db.Diseases on nd.disease_id equals d.id
+                        join d in db.Disease on nd.disease_id equals d.id
                         where nd.disease_id == id && n.publicity == "public"
                         select new
                         {
@@ -437,6 +439,7 @@ namespace Hakeemhikmat.Controllers
                             DiseaseName = d.name,
                             HakeemId = nu.id,
                             HakeemName = nu.name,
+                            DiseaseTage = d.Tags,
                             NuskhaRating = db.Rates
                                             .Where(r => r.nuskha_id == n.id)
                                             .Average(r => (double?)r.rating) ?? 0 ,
@@ -469,7 +472,7 @@ namespace Hakeemhikmat.Controllers
                             AverageRating = hr.AverageRating,
                             RatingCount = nuskha.RatingCount,
                         }
-                    ).OrderByDescending(x => x.AverageRating).ToList();
+                    ).OrderByDescending(x => x.RatingCount).ToList();
 
                     result.AddRange(finalResult);
                 }
@@ -905,7 +908,7 @@ namespace Hakeemhikmat.Controllers
         {
             try
             {
-                var chk = db.Diseases.Select(u => new
+                var chk = db.Disease.Select(u => new
                 {
                     u.id,
                     u.name
@@ -950,7 +953,7 @@ namespace Hakeemhikmat.Controllers
             }
         }
 
-        [HttpPut]
+ 
 
         [HttpGet]
 
@@ -1063,7 +1066,37 @@ namespace Hakeemhikmat.Controllers
             }
         }
 
+        [HttpGet]
+        public HttpResponseMessage GetNushkadetailsForUpgrade(int n_id)
+        {
+            try
+            {
 
+                var query = from n in db.Nuskhas
+                            join ni in db.NuskhaIngredients on n.id equals ni.nuskha_id
+                            join i in db.Ingredients on ni.ingredient_id equals i.id
+                            where n.id == n_id
+                            select new
+                            {
+                                IngredientId = i.id,
+                                NuskhaName = n.name,
+                                NuskhaPublicity = n.publicity,
+                                ingredetienid=i.id,
+                                IngredientName = i.name,
+                                ni.quanity,
+                                ni.unit
+                            };
+
+                var result = query.ToList();
+
+
+                return Request.CreateResponse(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
 
     }
 
